@@ -16,6 +16,6 @@ public class UIBeatmapProgress : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		ProgressBar.fillAmount = Beatmap.Timer/Beatmap.EndTime;
+		ProgressBar.fillAmount = Beatmap.Timer / Beatmap.EndTime;
 	}
 }

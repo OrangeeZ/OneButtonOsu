@@ -22,6 +22,7 @@ public class UIHeartsController : MonoBehaviour {
 		{
 			var heart = new GameObject("Heart").AddComponent<Image>();
 			heart.transform.SetParent(root.transform, false);
+			heart.sprite = sprite;
 		}
 	}
 
@@ -39,9 +40,9 @@ public class UIHeartsController : MonoBehaviour {
 
 	private void OnHit() {
 
-		if (transform.childCount > 0)
+		if (root.transform.childCount > 0)
 		{
-			Destroy(transform.GetChild(0).gameObject);
+			Destroy( root.transform.GetChild( 0 ).gameObject );
 		}
 
 		//if ( root.Controls.Count > 0 ) {
