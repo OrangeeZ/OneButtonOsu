@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UIBeatmapProgress : MonoBehaviour
 {
 
-	public Beatmap Beatmap;
+	public UIShowWinScreen WinScreen;
 	public Image ProgressBar;
 
 	// Use this for initialization
@@ -16,6 +16,6 @@ public class UIBeatmapProgress : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		ProgressBar.fillAmount = Beatmap.Timer / Beatmap.EndTime;
+		ProgressBar.fillAmount = WinScreen.Progress;
 	}
 }
