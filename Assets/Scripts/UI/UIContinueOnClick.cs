@@ -25,9 +25,10 @@ public class UIContinueOnClick : MonoBehaviour, IPointerClickHandler {
 
 		Time.timeScale = 1f;
 
-		gameObject.SetActive(false);
+		//gameObject.SetActive(false);
 		//root.Hide();
-		gameUI.SetActive(true);//Show();
+		//gameUI.SetActive(true);//Show();
+		ScreenManager.GetScreen<UIGameScreenController>().Show();
 	}
 
 	public void OnPointerDown(PointerEventData eventData)

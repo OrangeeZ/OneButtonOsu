@@ -47,7 +47,7 @@ public static class ArrayExtensions {
 
 	public static T RandomElement<T>( this IEnumerable<T> self ) {
 
-		if ( self.IsEmpty() ) {
+		if ( self.IsNullOrEmpty() ) {
 
 			return default( T );
 		}

@@ -6,8 +6,6 @@ public class GameOverController : MonoBehaviour {
 
 	public LivesController livesController;
 
-	public GameObject gameOverScreen;
-
 	void OnEnable() {
 
 		livesController.Died += OnDie;
@@ -27,7 +25,7 @@ public class GameOverController : MonoBehaviour {
 
 		yield return new WaitForSeconds( .1f );
 
-		gameOverScreen.SetActive(true);
+		ScreenManager.GetScreen<UIGameOverController>().Show();
 
 		Time.timeScale = 0f;
 	}

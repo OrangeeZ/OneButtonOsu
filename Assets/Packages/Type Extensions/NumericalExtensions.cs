@@ -1,71 +1,91 @@
 using UnityEngine;
 using System.Collections;
 
-public static class NumbersExtensions {
-	public static float Abs( this float number ) {
-		return Mathf.Abs( number );
-	}
+public static class NumericalExtensions {
 
-	public static float Random( this float number ) {
+    public static float Abs( this float number ) {
 
-		return UnityEngine.Random.Range ( 0f, number );
-	}
+        return Mathf.Abs( number );
+    }
 
-	public static float Looped( this float number, float rightBound ) {
-		return ( number + rightBound ) % rightBound;
-	}
+    public static float Random( this float number ) {
 
-	public static float Clamped( this float number, float leftBound, float rightBound ) {
-		return Mathf.Clamp( number, leftBound, rightBound );
-	}
-	
-	public static int Clamped( this int number, int leftBound, int rightBound ) {
-		return Mathf.Clamp( number, leftBound, rightBound );
-	}
+        return UnityEngine.Random.Range( 0f, number );
+    }
 
-	public static float Negative( this float number ) {
-		return -number;
-	}
+    public static float Looped( this float number, float rightBound ) {
 
-	public static float Reciprocal( this float number ) {
-		return 1f / number;
-	}
+        return ( number + rightBound ) % rightBound;
+    }
 
-	public static int RoundToInt( this float number ) {
+    public static float Clamped( this float number, float leftBound, float rightBound ) {
 
-		return Mathf.RoundToInt ( number );
-	}
+        return Mathf.Clamp( number, leftBound, rightBound );
+    }
 
-	public static float Sign( this float number ) {
-		return Mathf.Sign( number );
-	}
+    public static int Clamped( this int number, int leftBound, int rightBound ) {
 
-	public static float Floor( this float number ) {
-		return Mathf.Floor( number );
-	}
+        return Mathf.Clamp( number, leftBound, rightBound );
+    }
 
-	public static float Ceil( this float number ) {
-		return Mathf.Ceil( number );
-	}
+    public static float Negative( this float number ) {
 
-	public static int FloorToInt( this float number ) {
-		return Mathf.FloorToInt( number );
-	}
+        return -number;
+    }
 
-	public static int CeilToInt( this float number ) {
-		return Mathf.CeilToInt( number );
-	}
+    public static float Reciprocal( this float number ) {
 
-	public static int Random( this int number ) {
+        return 1f / number;
+    }
 
-		return UnityEngine.Random.Range ( 0, number );
-	}
+    public static int RoundToInt( this float number ) {
 
-	public static int Abs( this int number ) {
-		return Mathf.Abs( number );
-	}
+        return Mathf.RoundToInt( number );
+    }
 
-	public static float Pow( this float number, float power ) {
-		return Mathf.Pow( number, power );
-	}
+    public static float Sign( this float number ) {
+
+        return Mathf.Sign( number );
+    }
+
+    public static float Floor( this float number ) {
+
+        return Mathf.Floor( number );
+    }
+
+    public static float Ceil( this float number ) {
+
+        return Mathf.Ceil( number );
+    }
+
+    public static int FloorToInt( this float number ) {
+
+        return Mathf.FloorToInt( number );
+    }
+
+    public static int CeilToInt( this float number ) {
+
+        return Mathf.CeilToInt( number );
+    }
+
+    public static int Random( this int number ) {
+
+        return UnityEngine.Random.Range( 0, number );
+    }
+
+    public static int Abs( this int number ) {
+
+        return Mathf.Abs( number );
+    }
+
+    public static float Pow( this float number, float power ) {
+
+        return Mathf.Pow( number, power );
+    }
+
+    public static bool IsNan( this float self ) {
+
+        return float.IsNaN( self );
+    }
+
 }

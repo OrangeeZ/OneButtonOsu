@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System.Collections;
 
@@ -16,4 +17,9 @@ public static class DictionaryExtensions {
 
 		return result;
 	}
+
+	public static IEnumerable<T2> SelectValues<T1, T2>( this IDictionary<T1, T2> self, IEnumerable<T1> keys ) {
+
+		return self.Where( _ => keys.Contains( _.Key ) ).Select( _ => _.Value );
+	}  
 }

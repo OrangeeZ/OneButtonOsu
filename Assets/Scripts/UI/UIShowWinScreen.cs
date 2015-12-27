@@ -4,7 +4,7 @@ public class UIShowWinScreen : MonoBehaviour {
 
 	public AudioSource beatmapSound;
 
-	public GameObject root;
+	//public GameObject root;
 
 	public float Progress { get { return beatmapSound.time/beatmapSound.clip.length; } }
 
@@ -12,7 +12,8 @@ public class UIShowWinScreen : MonoBehaviour {
 
 		if ( Progress  >= 1f ) {
 			
-			root.SetActive(value: true);
+			ScreenManager.GetScreen<UIWinScreen>().Show();
+			//root.SetActive(value: true);
 
 			Time.timeScale = 0f;
 		}
