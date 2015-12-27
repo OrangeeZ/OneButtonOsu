@@ -5,7 +5,7 @@ public class UIContinueOnClick : MonoBehaviour {
 
 	//public dfControl root;
 
-	public dfControl gameUI;
+	public GameObject gameUI;
 
 	void OnEnable() {
 
@@ -26,6 +26,6 @@ public class UIContinueOnClick : MonoBehaviour {
 
 		gameObject.SetActive(false);
 		//root.Hide();
-		gameUI.Show();
+		gameUI.SetActive(true);//Show();
 	}
 }

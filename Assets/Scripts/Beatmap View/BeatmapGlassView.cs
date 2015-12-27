@@ -67,9 +67,11 @@ public class BeatmapGlassView : MonoBehaviour {
 
 		var allInstances = longBeatInstances.Concat( shortBeatInstances ).Where( each => each.gameObject.activeSelf );
 
-		newBeats.MapImmediate( beat => _currentBeats.Add( beat ) );
+		//newBeats.MapImmediate( beat => _currentBeats.Add( beat ) );
 
 		foreach ( var each in newBeats ) {
+
+			_currentBeats.Add(each);
 
 			var instance = default( GameObject );
 

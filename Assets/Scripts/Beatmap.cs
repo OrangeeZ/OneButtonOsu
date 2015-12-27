@@ -37,6 +37,8 @@ public class Beatmap : MonoBehaviour {
 
 	public float Timer { get; private set; }
 
+	public float EndTime { get { return beatmap.Last().time;} }
+
 	private Queue<Beat> beatQueue = new Queue<Beat>();
 
 	private float pressTime;
