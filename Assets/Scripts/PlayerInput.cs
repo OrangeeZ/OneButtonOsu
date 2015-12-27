@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
-public class PlayerInput : MonoBehaviour {
+public class PlayerInput : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
 	public string keyName = "P1 Fire";
 
@@ -18,5 +19,15 @@ public class PlayerInput : MonoBehaviour {
 
 			beatmap.OnRelease();
 		}
+	}
+
+	public void OnPointerDown(PointerEventData eventData)
+	{
+		beatmap.OnPress();
+	}
+
+	public void OnPointerUp(PointerEventData eventData)
+	{
+		beatmap.OnRelease();
 	}
 }

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
-public class UIContinueOnClick : MonoBehaviour {
+public class UIContinueOnClick : MonoBehaviour, IPointerClickHandler {
 
 	//public dfControl root;
 
@@ -27,5 +28,20 @@ public class UIContinueOnClick : MonoBehaviour {
 		gameObject.SetActive(false);
 		//root.Hide();
 		gameUI.SetActive(true);//Show();
+	}
+
+	public void OnPointerDown(PointerEventData eventData)
+	{
+		OnClick();
+	}
+
+	public void OnPointerClick(PointerEventData eventData)
+	{
+		OnClick();
+	}
+
+	public void OnMove(AxisEventData eventData)
+	{
+		Debug.Log(eventData);
 	}
 }
