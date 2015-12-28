@@ -10,6 +10,8 @@ public class BeatmapViewHand : MonoBehaviour {
 
 	public Beatmap beatmap;
 
+	public float JumpDelay;
+
 	void OnEnable() {
 
 		beatmap.BeatCompleted += OnBeatCompleted;
@@ -20,7 +22,10 @@ public class BeatmapViewHand : MonoBehaviour {
 		beatmap.BeatCompleted -= OnBeatCompleted;
 	}
 
-	private IEnumerator ToggleAnimation( string animationName ) {
+	private IEnumerator ToggleAnimation( string animationName )
+	{
+
+		yield return new WaitForSeconds(JumpDelay);
 
 		animator.SetBool( animationName, true );
 
