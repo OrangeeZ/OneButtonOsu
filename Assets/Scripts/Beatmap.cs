@@ -75,9 +75,8 @@ public class Beatmap : MonoBehaviour
 
 	}
 
-	public void OnDoublePress()
-	{
-		Debug.Log( "OnDoublePress" );
+	public void OnDoublePress() {
+
 		if ( !isEnabled ) {
 
 			return;
@@ -102,7 +101,6 @@ public class Beatmap : MonoBehaviour
 	}
 
 	public void OnPress() {
-		Debug.Log( "OnPress" );
 
 		if ( !isEnabled ) {
 
@@ -178,9 +176,9 @@ public class Beatmap : MonoBehaviour
 
 		Timer += Time.deltaTime;
 
-		//var beat = beatQueue.Peek();
+		var beat = beatQueue.Peek();
 
-		//if ( Timer >= GetBeatEndTime( beat ) ) {
+		if ( Timer >= GetBeatEndTime( beat ) ) {
 
 		//	if ( pressTime >= beat.time && pressTime <= GetBeatEndTime( beat ) ) {
 
@@ -190,9 +188,9 @@ public class Beatmap : MonoBehaviour
 		//		}
 		//	} else {
 
-		//		BeatFailed( this, beatQueue.Dequeue() );
+				BeatFailed( this, beatQueue.Dequeue() );
 		//	}
-		//}
+		}
 	}
 
 	public float GetBeatEndTime( Beat beat ) {

@@ -4,38 +4,45 @@ using System.Collections;
 
 public class BeatmapViewHand : MonoBehaviour {
 
-	public Animator animator;
+	public Animator Animator;
 
 	public string successAnimationName = "Success";
 
-	public Beatmap beatmap;
+	public Beatmap Beatmap;
 
 	public float JumpDelay;
 
+	[Header("Effect settings")]
+	public GameObject JumpDustPrefab;
+
 	void OnEnable() {
 
-		beatmap.BeatCompleted += OnBeatCompleted;
+		Beatmap.BeatCompleted += OnBeatCompleted;
 	}
 
 	void OnDisable() {
 
-		beatmap.BeatCompleted -= OnBeatCompleted;
+		Beatmap.BeatCompleted -= OnBeatCompleted;
 	}
 
 	private IEnumerator ToggleAnimation( string animationName )
 	{
-
 		yield return new WaitForSeconds(JumpDelay);
 
-		animator.SetBool( animationName, true );
+		Animator.SetBool( animationName, true );
 
 		yield return new WaitForSeconds( .1f );
 
-		animator.SetBool( animationName, false );
+		Animator.SetBool( animationName, false );
 	}
 
 	private void OnBeatCompleted( Beatmap beatmap, Beatmap.Beat beat ) {
 
 		StartCoroutine( ToggleAnimation( successAnimationName ) );
+	}
+
+	public void NotifyJumpEnd()
+	{
+		Instantiate(JumpDustPrefab).transform.position = transform.position;
 	}
 }
