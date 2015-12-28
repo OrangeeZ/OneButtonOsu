@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class Beatmap : MonoBehaviour {
+public class Beatmap : MonoBehaviour
+{
 
 	public System.Action<Beatmap, Beat> BeatAvailable = delegate { };
 	public System.Action<Beatmap, Beat> BeatCompleted = delegate { };
@@ -11,15 +12,17 @@ public class Beatmap : MonoBehaviour {
 	public AudioSource associatedSound;
 
 	[System.Serializable]
-	public struct Beat {
+	public struct Beat
+	{
 
 		public float time;
 
 		public bool isLong;
 
-		public override string ToString() {
+		public override string ToString()
+		{
 
-			return string.Format( "({0} {1})", time, isLong );
+			return string.Format("({0} {1})", time, isLong);
 		}
 
 		//public float duration;
@@ -37,19 +40,24 @@ public class Beatmap : MonoBehaviour {
 
 	public float Timer { get; private set; }
 
-	public float EndTime { get { return beatmap.Last().time;} }
+	public float EndTime
+	{
+		get { return beatmap.Last().time; }
+	}
 
 	private Queue<Beat> beatQueue = new Queue<Beat>();
 
 	private float pressTime;
 	private float releaseTime;
 
-	void OnEnable() {
+	private void OnEnable()
+	{
 
-		beatQueue = new Queue<Beat>( beatmap );
+		beatQueue = new Queue<Beat>(beatmap);
 	}
 
-	public void Play() {
+	public void Play()
+	{
 
 		isEnabled = true;
 
@@ -58,14 +66,43 @@ public class Beatmap : MonoBehaviour {
 		Timer = 0f;
 	}
 
-	public void Stop() {
+	public void Stop()
+	{
 
 		isEnabled = false;
 
 		associatedSound.Stop();
+
+	}
+
+	public void OnDoublePress()
+	{
+		Debug.Log( "OnDoublePress" );
+		if ( !isEnabled ) {
+
+			return;
+		}
+
+		pressTime = Timer;
+
+		if ( !beatQueue.Any() ) {
+
+			return;
+		}
+
+		var beat = beatQueue.Peek();
+
+		if ( Timer >= beat.time && Timer <= GetBeatEndTime( beat ) && beat.isLong ) {
+
+			BeatCompleted( this, beatQueue.Dequeue() );
+		} else {
+
+			BeatFailed( this, beatQueue.Dequeue() );
+		}
 	}
 
 	public void OnPress() {
+		Debug.Log( "OnPress" );
 
 		if ( !isEnabled ) {
 
@@ -81,12 +118,9 @@ public class Beatmap : MonoBehaviour {
 
 		var beat = beatQueue.Peek();
 
-		if ( Timer >= beat.time && Timer <= GetBeatEndTime( beat ) ) {
+		if ( Timer >= beat.time && Timer <= GetBeatEndTime( beat ) && !beat.isLong) {
 
-			if ( !beat.isLong ) {
-
-				BeatCompleted( this, beatQueue.Dequeue() );
-			}
+			BeatCompleted( this, beatQueue.Dequeue() );
 		} else {
 
 			BeatFailed( this, beatQueue.Dequeue() );
@@ -107,20 +141,20 @@ public class Beatmap : MonoBehaviour {
 			return;
 		}
 
-		var beat = beatQueue.Peek();
-		if ( beat.isLong ) {
+		//var beat = beatQueue.Peek();
+		//if ( beat.isLong ) {
 
-			if ( pressTime >= beat.time && pressTime <= GetBeatEndTime( beat ) ) {
+		//	if ( pressTime >= beat.time && pressTime <= GetBeatEndTime( beat ) ) {
 
-				if ( releaseTime >= GetBeatEndTime( beat ) ) {
+		//		if ( releaseTime >= GetBeatEndTime( beat ) ) {
 
-					BeatCompleted( this, beatQueue.Dequeue() );
-				} else {
+		//			BeatCompleted( this, beatQueue.Dequeue() );
+		//		} else {
 
-					BeatFailed( this, beatQueue.Dequeue() );
-				}
-			}
-		}
+		//			BeatFailed( this, beatQueue.Dequeue() );
+		//		}
+		//	}
+		//}
 	}
 
 	public IEnumerable<Beat> GetBeats( float beatWindow ) {
@@ -144,21 +178,21 @@ public class Beatmap : MonoBehaviour {
 
 		Timer += Time.deltaTime;
 
-		var beat = beatQueue.Peek();
+		//var beat = beatQueue.Peek();
 
-		if ( Timer >= GetBeatEndTime( beat ) ) {
+		//if ( Timer >= GetBeatEndTime( beat ) ) {
 
-			if ( pressTime >= beat.time && pressTime <= GetBeatEndTime( beat ) ) {
+		//	if ( pressTime >= beat.time && pressTime <= GetBeatEndTime( beat ) ) {
 
-				if ( beat.isLong ) {
+		//		if ( beat.isLong ) {
 
-					BeatCompleted( this, beatQueue.Dequeue() );
-				}
-			} else {
+		//			BeatCompleted( this, beatQueue.Dequeue() );
+		//		}
+		//	} else {
 
-				BeatFailed( this, beatQueue.Dequeue() );
-			}
-		}
+		//		BeatFailed( this, beatQueue.Dequeue() );
+		//	}
+		//}
 	}
 
 	public float GetBeatEndTime( Beat beat ) {
