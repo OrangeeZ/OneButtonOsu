@@ -83,7 +83,7 @@ public class ScreenFadeAnimation : ScreenAnimation {
 	private IEnumerable UpdateTimed(System.Action action, float duration)
 	{
 		var timer = 0f;
-		while ((timer += Time.deltaTime) < duration)
+		while ((timer += Time.unscaledDeltaTime) < duration)
 		{
 			action();
 

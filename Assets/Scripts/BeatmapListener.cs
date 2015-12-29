@@ -7,7 +7,7 @@ public class BeatmapListener : MonoBehaviour {
 
 	void OnEnable() {
 
-		targetBeatmap.BeatCompleted += ( beatmap, beat ) => Debug.Log( "Win" );
+		targetBeatmap.BeatCompleted += ( beatmap, beat, rateHit ) => Debug.Log( "Win" );
 		targetBeatmap.BeatFailed += ( beatmap, beat ) => Debug.Log( "Lose" );
 	}
 }

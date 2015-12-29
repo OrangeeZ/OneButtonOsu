@@ -25,12 +25,14 @@ public class DamageIndicatorController : MonoBehaviour {
 		//EventSystem.Events.SubscribeOfType<Character.RecievedDamage>( OnCharacterReceiveDamage );
 	}
 
-	private void OnCharacterReceiveDamage( Vector3 position ) {
+	private void OnCharacterReceiveDamage( Vector3 position, float rateHit ) {
 
 		if ( _targetCamera == null ) {
 
 			return;
 		}
+
+		Debug.Log( rateHit );
 
 		var instance = Instantiate( _damageIndicator );
 		var screenPosition = Camera.main.WorldToScreenPoint( position );
@@ -39,7 +41,7 @@ public class DamageIndicatorController : MonoBehaviour {
 		instance.transform.SetParent( transform );
 
 		var isCritical = 1f.Random() >= _criticalDamageChance;
-		var damageValue = isCritical ? Random.Range( 2000, 3000 ) : Random.Range( 500, 700 );
+		var damageValue = isCritical ? Mathf.Lerp( 2000, 3000, rateHit ).FloorToInt() : Mathf.Lerp( 500, 700, rateHit ).FloorToInt();
 
 		instance.Initialize( damageValue, true, isCritical );
 	}

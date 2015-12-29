@@ -36,7 +36,7 @@ public class BeatmapViewHand : MonoBehaviour {
 	//	//Animator.SetBool( animationName, false );
 	//}
 
-	private void OnBeatCompleted( Beatmap beatmap, Beatmap.Beat beat ) {
+	private void OnBeatCompleted( Beatmap beatmap, Beatmap.Beat beat, float rateHit ) {
 
 		var prefab = beat.isLong ? UltimateAttackEffectPrefab : AttackEffectPrefab;
 		Instantiate( prefab ).transform.position = transform.position;

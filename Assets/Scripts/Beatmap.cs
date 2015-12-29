@@ -1,28 +1,26 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Beatmap : MonoBehaviour
-{
+public class Beatmap : MonoBehaviour {
 
 	public System.Action<Beatmap, Beat> BeatAvailable = delegate { };
-	public System.Action<Beatmap, Beat> BeatCompleted = delegate { };
+	public System.Action<Beatmap, Beat, float> BeatCompleted = delegate { };
 	public System.Action<Beatmap, Beat> BeatFailed = delegate { };
 
 	public AudioSource associatedSound;
 
 	[System.Serializable]
-	public struct Beat
-	{
+	public struct Beat {
 
 		public float time;
 
 		public bool isLong;
 
-		public override string ToString()
-		{
+		public override string ToString() {
 
-			return string.Format("({0} {1})", time, isLong);
+			return string.Format( "({0} {1})", time, isLong );
 		}
 
 		//public float duration;
@@ -40,8 +38,7 @@ public class Beatmap : MonoBehaviour
 
 	public float Timer { get; private set; }
 
-	public float EndTime
-	{
+	public float EndTime {
 		get { return beatmap.Last().time; }
 	}
 
@@ -50,14 +47,12 @@ public class Beatmap : MonoBehaviour
 	private float pressTime;
 	private float releaseTime;
 
-	private void OnEnable()
-	{
+	private void OnEnable() {
 
-		beatQueue = new Queue<Beat>(beatmap);
+		beatQueue = new Queue<Beat>( beatmap );
 	}
 
-	public void Play()
-	{
+	public void Play() {
 
 		isEnabled = true;
 
@@ -66,8 +61,7 @@ public class Beatmap : MonoBehaviour
 		Timer = 0f;
 	}
 
-	public void Stop()
-	{
+	public void Stop() {
 
 		isEnabled = false;
 
@@ -95,8 +89,11 @@ public class Beatmap : MonoBehaviour
 
 		if ( Timer >= beat.time && Timer <= GetBeatEndTime( beat ) && beat.isLong ) {
 
-			BeatCompleted( this, beatQueue.Dequeue() );
+			var percentHit = 1f - ( Timer - beat.time ) / longBeatDuration;
+			BeatCompleted( this, beatQueue.Dequeue(), percentHit );
 		} else {
+
+			Debug.LogWarning( GetBeatEndTime( beat ) + " failed at " + Timer );
 
 			BeatFailed( this, beatQueue.Dequeue() );
 		}
@@ -120,11 +117,13 @@ public class Beatmap : MonoBehaviour
 
 		var beat = beatQueue.Peek();
 
-		if ( Timer >= beat.time && Timer <= GetBeatEndTime( beat ) && !beat.isLong) {
+		if ( Timer >= beat.time && Timer <= GetBeatEndTime( beat ) && !beat.isLong ) {
 
-			BeatCompleted( this, beatQueue.Dequeue() );
+			var percentHit = 1f - ( Timer - beat.time ) / shorBeatDuration;
+			BeatCompleted( this, beatQueue.Dequeue(), percentHit );
 		} else {
 
+			Debug.LogWarning( GetBeatEndTime( beat ) + " failed at " + Timer );
 			BeatFailed( this, beatQueue.Dequeue() );
 		}
 	}
@@ -184,21 +183,33 @@ public class Beatmap : MonoBehaviour
 
 		if ( Timer >= GetBeatEndTime( beat ) ) {
 
-		//	if ( pressTime >= beat.time && pressTime <= GetBeatEndTime( beat ) ) {
+			//	if ( pressTime >= beat.time && pressTime <= GetBeatEndTime( beat ) ) {
 
-		//		if ( beat.isLong ) {
+			//		if ( beat.isLong ) {
 
-		//			BeatCompleted( this, beatQueue.Dequeue() );
-		//		}
-		//	} else {
+			//			BeatCompleted( this, beatQueue.Dequeue() );
+			//		}
+			//	} else {
+			
+			//Debug.LogWarning( GetBeatEndTime( beat ) + " failed at " + Timer );
 
-				BeatFailed( this, beatQueue.Dequeue() );
-		//	}
+			BeatFailed( this, beatQueue.Dequeue() );
+			//	}
 		}
 	}
 
 	public float GetBeatEndTime( Beat beat ) {
 
 		return beat.time + ( beat.isLong ? longBeatDuration : shorBeatDuration );
+	}
+
+	public float GetDuration() {
+
+		return GetBeatEndTime( beatmap.Last() );
+	}
+
+	public float GetRateFinished() {
+
+		return PlayTimer / GetDuration();
 	}
 }

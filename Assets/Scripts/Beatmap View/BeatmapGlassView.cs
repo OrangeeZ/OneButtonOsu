@@ -15,7 +15,7 @@ public class BeatmapGlassView : MonoBehaviour {
 
 	public bool fadeFailedBeats = false;
 
-	public Action<Vector3> BeatCompleted = delegate { };
+	public Action<Vector3, float> BeatCompleted = delegate { };
 
 	[SerializeField]
 	private List<GameObject> shortBeatInstances;
@@ -36,7 +36,7 @@ public class BeatmapGlassView : MonoBehaviour {
 		beatmap.BeatCompleted += OnBeatCompleted;
 	}
 
-	private void OnBeatCompleted( Beatmap beatmap, Beatmap.Beat beat ) {
+	private void OnBeatCompleted( Beatmap beatmap, Beatmap.Beat beat, float rateHit) {
 
 		var beatPosition = ( beat.time - beatmap.GetTimer() ) * Vector3.right / timelineLength * timelineSize;
 
@@ -49,7 +49,7 @@ public class BeatmapGlassView : MonoBehaviour {
 		//	return;
 		//}
 
-		BeatCompleted( transform.localToWorldMatrix * beatPosition );
+		BeatCompleted( transform.localToWorldMatrix * beatPosition, rateHit );
 	}
 
 	private void BeatFailed( Beatmap beatmap, Beatmap.Beat beat ) {

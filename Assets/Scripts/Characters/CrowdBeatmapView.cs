@@ -44,9 +44,9 @@ public class CrowdBeatmapView : MonoBehaviour {
 		targetBeatmap.BeatCompleted -= OnBeatCompleted;
 	}
 
-	private void OnBeatCompleted( Beatmap beatmap, Beatmap.Beat beat ) {
+	private void OnBeatCompleted( Beatmap beatmap, Beatmap.Beat beat, float rateHit ) {
 
-		for ( var i = 0; i < ( beat.isLong ? 2 : 1 ); i ++ ) {
+		for ( var i = 0; i < ( beat.isLong ? 2 : 1 ); i++ ) {
 
 			var activeCharacters = crowdCharactersPool.Where( each => each.gameObject.activeSelf && each.isActive );
 
