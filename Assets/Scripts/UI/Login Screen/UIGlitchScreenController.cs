@@ -17,6 +17,8 @@ public class UIGlitchScreenController : MonoBehaviour {
 	void OnDisable() {
 
 		StopAllCoroutines();
+
+		_postEffectCombo.DeactivateEffect();
 	}
 
 	private IEnumerator Loop() {
