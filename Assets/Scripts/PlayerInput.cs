@@ -17,16 +17,18 @@ public class PlayerInput : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 	void Update() {
 
-		if ( _waitForSecondTap && DeltaTimeSinceLastPress > DoubleTapWindowLength ) {
+		//if ( _waitForSecondTap && DeltaTimeSinceLastPress > DoubleTapWindowLength ) {
+
+		//	beatmap.OnPress();
+
+		//	_waitForSecondTap = false;
+
+		//	_previousPressTime = Time.time;
+		//}
+
+		if ( Input.GetButtonDown( keyName ) || Input.GetMouseButtonDown( 0 ) ) {
 
 			beatmap.OnPress();
-
-			_waitForSecondTap = false;
-		}
-
-		if ( Input.GetButtonDown( keyName ) ) {
-
-			//beatmap.OnPress();
 			OnPointerDown( null );
 		}
 
@@ -37,6 +39,11 @@ public class PlayerInput : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	}
 
 	public void OnPointerDown( PointerEventData eventData ) {
+
+		//beatmap.OnPress();
+
+
+		return;
 
 		if ( DeltaTimeSinceLastPress <= DoubleTapWindowLength && _waitForSecondTap ) {
 

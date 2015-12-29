@@ -117,7 +117,7 @@ public class Beatmap : MonoBehaviour {
 
 		var beat = beatQueue.Peek();
 
-		if ( Timer >= beat.time && Timer <= GetBeatEndTime( beat ) && !beat.isLong ) {
+		if ( Timer >= beat.time && Timer <= GetBeatEndTime( beat ) ) {
 
 			var percentHit = 1f - ( Timer - beat.time ) / shorBeatDuration;
 			BeatCompleted( this, beatQueue.Dequeue(), percentHit );

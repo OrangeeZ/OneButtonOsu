@@ -5738,7 +5738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyName: P1 Fire
   beatmap: {fileID: 707914135}
-  DoubleTapWindowLength: 0.14
+  DoubleTapWindowLength: 0.16
 --- !u!222 &1397060386
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -5,51 +5,51 @@ using UnityEngine.UI;
 
 public class ScreenFadeAnimation : ScreenAnimation {
 
-    public float duration = 0.4f;
+	public float duration = 0.4f;
 
-    public bool isReverse = false;
+	public bool isReverse = false;
 
-    [SerializeField]
-    private Graphic[] _graphics;
+	[SerializeField]
+	private Graphic[] _graphics;
 
-    private void Reset() {
+	private void Reset() {
 
-        this.GetComponent( out screen );
-        this.GetComponentsInChildren( out _graphics );
-    }
+		this.GetComponent( out screen );
+		this.GetComponentsInChildren( out _graphics );
+	}
 
-    private IEnumerable LerpValue( System.Action<float> setter, float from, float to, float duration ) {
+	private IEnumerable LerpValue( System.Action<float> setter, float from, float to, float duration ) {
 
-        var timer = 0f;
+		var timer = 0f;
 
-        setter( from );
+		setter( from );
 
-        yield return null;
+		yield return null;
 
-        while ( timer < duration ) {
+		while ( timer < duration ) {
 
-            setter( Mathf.Lerp( from, to, timer / duration ) );
+			setter( Mathf.Lerp( from, to, timer / duration ) );
 
-            timer += Time.unscaledDeltaTime;
+			timer += Time.unscaledDeltaTime;
 
-            yield return null;
-        }
+			yield return null;
+		}
 
-        setter( to );
-    }
+		setter( to );
+	}
 
-    public override IEnumerable GetAnimation( float? overrideDuration ) {
+	public override IEnumerable GetAnimation( float? overrideDuration ) {
 
-        var targetDuration = overrideDuration ?? duration;
+		var targetDuration = overrideDuration ?? duration;
 
-	    var animationMonad = new PMonad();
+		//var animationMonad = new PMonad();
 		//var initialAlphaValues = _graphics.Select(_ => _.color.a).ToArray();
 
 		//System.Action<float> updateAlphaValues = opacityValue =>
 		//{
 		//	for (var i = 0; i < _graphics.Length; ++i)
 		//	{
-			    
+
 		//	}
 		//};
 
@@ -60,31 +60,36 @@ public class ScreenFadeAnimation : ScreenAnimation {
 		//	animationMonad.Add( LerpValue( opacityValue => target.SetColor( a: opacityValue ), isReverse ? targetValue : 0f, isReverse ? 0f : targetValue, targetDuration ) );
 		//}
 
-	    var coroutines = _graphics.Select(each =>
-	    {
-		    var targetValue = each.color.a;
-		    var target = each;
+		var coroutines = _graphics.Select( each => {
 
-		    return LerpValue(opacityValue => target.SetColor(a: opacityValue), isReverse ? targetValue : 0f,
-			    isReverse ? 0f : targetValue, targetDuration).GetEnumerator();
-	    }).ToArray();
+			var targetValue = each.color.a;
+			var target = each;
 
-	    System.Action updateAlphaValues = () =>
-	    {
-			foreach ( var each in coroutines)
-			{
+			return LerpValue( opacityValue => target.SetColor( a: opacityValue ), 
+							  isReverse ? targetValue : 0f,
+							  isReverse ? 0f : targetValue, targetDuration 
+							).GetEnumerator();
+		} ).ToArray();
+
+		System.Action updateAlphaValues = () => {
+			foreach ( var each in coroutines ) {
 				each.MoveNext();
 			}
-	    };
+		};
 
 		return new PMonad().Add( UpdateTimed( updateAlphaValues, targetDuration ) ).ToEnumerable();
-    }
+	}
 
-	private IEnumerable UpdateTimed(System.Action action, float duration)
-	{
+	private IEnumerable UpdateTimed( System.Action action, float duration ) {
+
 		var timer = 0f;
-		while ((timer += Time.unscaledDeltaTime) < duration)
-		{
+
+		while ( timer < duration ) {
+		
+			Debug.Log(timer);
+
+			timer += Time.unscaledDeltaTime;
+
 			action();
 
 			yield return null;

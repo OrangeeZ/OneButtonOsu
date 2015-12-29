@@ -15,6 +15,8 @@ public class UIShowWinScreen : MonoBehaviour {
 
 			GameplayController.Instance.IsPaused = true;
 			ScreenManager.GetScreen<UIWinScreen>().Show();
+
+			enabled = false;
 		}
 	}
 }
