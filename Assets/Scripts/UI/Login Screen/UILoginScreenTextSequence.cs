@@ -9,17 +9,20 @@ public class UILoginScreenTextSequence : MonoBehaviour {
 	[SerializeField]
 	private float _textScreenDuration = 2f;
 
+	void Start() {
+
+		foreach ( var each in transform ) {
+
+			( each as Transform ).gameObject.SetActive( false );
+		}
+	}
+
 	public void Play( Action onFinish ) {
 
 		StartCoroutine( PlayCoroutine( onFinish ) );
 	}
 
 	private IEnumerator PlayCoroutine( Action onFinish ) {
-
-		foreach ( var each in transform ) {
-
-			( each as Transform ).gameObject.SetActive( false );
-		}
 
 		foreach ( var each in transform.OfType<Transform>() ) {
 
