@@ -12,8 +12,9 @@ public class BeatmapViewHand : MonoBehaviour {
 
 	public float JumpDelay;
 
-	[Header("Effect settings")]
-	public GameObject JumpDustPrefab;
+	[Header( "Effect settings" )] //public GameObject JumpDustPrefab;
+	public GameObject AttackEffectPrefab;
+	public GameObject UltimateAttackEffectPrefab;
 
 	void OnEnable() {
 
@@ -25,24 +26,26 @@ public class BeatmapViewHand : MonoBehaviour {
 		Beatmap.BeatCompleted -= OnBeatCompleted;
 	}
 
-	private IEnumerator ToggleAnimation( string animationName )
-	{
-		yield return new WaitForSeconds(JumpDelay);
+	//private IEnumerator ToggleAnimation( string animationName ) {
+	//	//yield return new WaitForSeconds(JumpDelay);
 
-		Animator.SetBool( animationName, true );
+	//	//Animator.SetBool( animationName, true );
 
-		yield return new WaitForSeconds( .1f );
+	//	//yield return new WaitForSeconds( .1f );
 
-		Animator.SetBool( animationName, false );
-	}
+	//	//Animator.SetBool( animationName, false );
+	//}
 
 	private void OnBeatCompleted( Beatmap beatmap, Beatmap.Beat beat ) {
 
-		StartCoroutine( ToggleAnimation( successAnimationName ) );
+		var prefab = beat.isLong ? UltimateAttackEffectPrefab : AttackEffectPrefab;
+		Instantiate( prefab ).transform.position = transform.position;
+
+		//StartCoroutine( ToggleAnimation( successAnimationName ) );
 	}
 
-	public void NotifyJumpEnd()
-	{
-		Instantiate(JumpDustPrefab).transform.position = transform.position;
+	public void NotifyJumpEnd() {
+
+		//Instantiate( JumpDustPrefab ).transform.position = transform.position;
 	}
 }

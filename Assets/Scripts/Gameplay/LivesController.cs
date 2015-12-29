@@ -15,7 +15,7 @@ public class LivesController : MonoBehaviour {
 	private bool _isDead = false;
 
 	void OnEnable() {
-		
+
 		beatmap.BeatFailed += OnBeatFailed;
 	}
 

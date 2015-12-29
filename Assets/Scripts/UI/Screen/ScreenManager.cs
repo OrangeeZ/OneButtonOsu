@@ -16,19 +16,16 @@ public class ScreenManager : AObject {
     private void Awake() {
 
         _self = this;
-    }
 
-    private void Start() {
+		foreach ( var each in screens ) {
 
-        foreach ( var each in screens ) {
+			each.HideImmediate();
+		}
 
-            each.HideImmediate();
-        }
+		if ( startScreen != null ) {
 
-        if ( startScreen != null ) {
-
-            startScreen.Show();
-        }
+			startScreen.Show();
+		}
     }
     
     public static Screen GetActive() {

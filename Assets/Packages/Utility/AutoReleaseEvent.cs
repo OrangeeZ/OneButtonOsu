@@ -59,14 +59,14 @@ public class AutoReleaseEvent {
 
 public class AutoReleaseEvent<T> {
 
-	private struct EventSubscriber<TEvent> {
+	private struct EventSubscriber {
 
-		public Action<TEvent> action;
+		public Action<T> action;
 		public Object owner;
 
 	}
 
-	private LinkedList<EventSubscriber<T>> actionList = new LinkedList<EventSubscriber<T>>();
+	private LinkedList<EventSubscriber> actionList = new LinkedList<EventSubscriber>();
 
 	public void Call( T arg1 ) {
 
@@ -92,7 +92,7 @@ public class AutoReleaseEvent<T> {
 
 	public void Register( Object owner, Action<T> action ) {
 
-		actionList.AddLast( new EventSubscriber<T>() {
+		actionList.AddLast( new EventSubscriber {
 			action = action,
 			owner = owner
 		} );
@@ -124,14 +124,14 @@ public class AutoReleaseEvent<T> {
 
 public class AutoReleaseEvent<T1, T2> {
 
-	private struct EventSubscriber<TEvent1, TEvent2> {
+	private struct EventSubscriber {
 
-		public Action<TEvent1, TEvent2> action;
+		public Action<T1, T2> action;
 		public Object owner;
 
 	}
 
-	private LinkedList<EventSubscriber<T1, T2>> actionList = new LinkedList<EventSubscriber<T1, T2>>();
+	private LinkedList<EventSubscriber> actionList = new LinkedList<EventSubscriber>();
 
 	public void Call( T1 arg1, T2 arg2 ) {
 
@@ -157,7 +157,7 @@ public class AutoReleaseEvent<T1, T2> {
 
 	public void Register( Object owner, Action<T1, T2> action ) {
 
-		actionList.AddLast( new EventSubscriber<T1, T2>() {
+		actionList.AddLast( new EventSubscriber {
 			action = action,
 			owner = owner
 		} );
@@ -165,6 +165,71 @@ public class AutoReleaseEvent<T1, T2> {
 	}
 
 	public void Unregister( Action<T1, T2> action ) {
+
+		for ( var node = actionList.First; node != null; node = node.Next ) {
+
+			if ( node.Value.action == action ) {
+
+				actionList.Remove( node );
+				break;
+
+			}
+
+		}
+
+	}
+
+	public void UnregisterAll() {
+
+		actionList.Clear();
+
+	}
+
+}
+
+public class AutoReleaseEvent<T1, T2, T3> {
+
+	private struct EventSubscriber {
+
+		public Action<T1, T2, T3> action;
+		public Object owner;
+
+	}
+
+	private LinkedList<EventSubscriber> actionList = new LinkedList<EventSubscriber>();
+
+	public void Call( T1 arg1, T2 arg2, T3 arg3 ) {
+
+		for ( var node = actionList.First; node != null; ) {
+
+			var next = node.Next;
+			var each = node.Value;
+
+			if ( each.owner == null ) {
+
+				actionList.Remove( node );
+
+			} else {
+
+				each.action( arg1, arg2, arg3 );
+			}
+
+			node = next;
+
+		}
+
+	}
+
+	public void Register( Object owner, Action<T1, T2, T3> action ) {
+
+		actionList.AddLast( new EventSubscriber() {
+			action = action,
+			owner = owner
+		} );
+
+	}
+
+	public void Unregister( Action<T1, T2, T3> action ) {
 
 		for ( var node = actionList.First; node != null; node = node.Next ) {
 

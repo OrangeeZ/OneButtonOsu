@@ -16,7 +16,7 @@ public class UILoginScreen : UIScreen {
 	[SerializeField]
 	private float _spinnerDuration;
 
-	void Awake() {
+	void Start() {
 
 		GameplayController.Instance.IsPaused = true;
 

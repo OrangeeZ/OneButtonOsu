@@ -15,6 +15,8 @@ public class BeatmapGlassView : MonoBehaviour {
 
 	public bool fadeFailedBeats = false;
 
+	public Action<Vector3> BeatCompleted = delegate { };
+
 	[SerializeField]
 	private List<GameObject> shortBeatInstances;
 
@@ -31,17 +33,34 @@ public class BeatmapGlassView : MonoBehaviour {
 		}
 
 		beatmap.BeatFailed += BeatFailed;
+		beatmap.BeatCompleted += OnBeatCompleted;
+	}
+
+	private void OnBeatCompleted( Beatmap beatmap, Beatmap.Beat beat ) {
+
+		var beatPosition = ( beat.time - beatmap.GetTimer() ) * Vector3.right / timelineLength * timelineSize;
+
+		//var allInstances = longBeatInstances.Concat( shortBeatInstances ).Where( each => each.gameObject.activeSelf );
+
+		//var instance = allInstances.FirstOrDefault( where => Mathf.Abs( where.transform.localPosition.x - beatPosition.x ) < 0.02f );
+
+		//if ( instance == null ) {
+
+		//	return;
+		//}
+
+		BeatCompleted( transform.localToWorldMatrix * beatPosition );
 	}
 
 	private void BeatFailed( Beatmap beatmap, Beatmap.Beat beat ) {
 
 		if ( fadeFailedBeats ) {
-			
+
 			var allInstances = longBeatInstances.Concat( shortBeatInstances ).Where( each => each.gameObject.activeSelf );
 
 			var beatPosition = ( beat.time - beatmap.GetTimer() ) * Vector3.right / timelineLength * timelineSize;
 
-			var instance = allInstances.FirstOrDefault( where => ( where.transform.position.x - beatPosition.x ) < 0.02f );
+			var instance = allInstances.FirstOrDefault( where => Mathf.Abs( where.transform.localPosition.x - beatPosition.x ) < 0.02f );
 
 			if ( instance == null ) {
 
@@ -71,7 +90,7 @@ public class BeatmapGlassView : MonoBehaviour {
 
 		foreach ( var each in newBeats ) {
 
-			_currentBeats.Add(each);
+			_currentBeats.Add( each );
 
 			var instance = default( GameObject );
 

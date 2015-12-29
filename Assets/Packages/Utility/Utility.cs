@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class Utility {
+namespace MyNamespace {
 
 	public class GraphPlotter {
 

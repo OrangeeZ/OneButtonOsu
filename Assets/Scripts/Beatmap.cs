@@ -77,6 +77,8 @@ public class Beatmap : MonoBehaviour
 
 	public void OnDoublePress() {
 
+		Debug.Log( "Double: " + PlayTimer * 1000f );
+
 		if ( !isEnabled ) {
 
 			return;
@@ -101,6 +103,8 @@ public class Beatmap : MonoBehaviour
 	}
 
 	public void OnPress() {
+
+		Debug.Log( "Single: " + PlayTimer * 1000f );
 
 		if ( !isEnabled ) {
 
@@ -167,7 +171,7 @@ public class Beatmap : MonoBehaviour
 
 	void LateUpdate() {
 
-		//PlayTimer += Time.deltaTime;
+		PlayTimer += Time.deltaTime;
 
 		if ( !isEnabled || !beatQueue.Any() ) {
 
